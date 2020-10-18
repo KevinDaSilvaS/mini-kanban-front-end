@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../boards/boards.css">
+    <link rel="stylesheet" href="tasks.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="add_boards" id="add_boards">
+        <p id="board-title"></p>
+        <p class="addBtn" onclick="addTask()">+</p>
+    </div>
+    <div id="tasks">
+        <h4 class="titleKanban">TO DO</h4>
+        <h4 class="titleKanban">DOING</h4>
+        <h4 class="titleKanban">DONE</h4>
+        <div id="TO-DO" ondrop="drop(event)" ondragover="allowDrop(event)" class="draggable"></div>
+        <div id="DOING" ondrop="drop(event)" ondragover="allowDrop(event)" class="draggable"></div>
+        <div id="DONE" ondrop="drop(event)" ondragover="allowDrop(event)" class="draggable"></div>
+    </div>
+</body>
+
+<script src="./tasks.js"></script>
+<script>
+    loadTasks();
+</script>
+<script>
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+    
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+    
+    function drop(ev) {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(data));
+    
+      let status = ev.target.id;
+      if(ev.target.id == "TO-DO") status = "TO DO";
+      updateStatus(status, data);
+
+    }
+    </script>
+</html>
